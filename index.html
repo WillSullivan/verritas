@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Verritas</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
+    <style type="text/css">
+        h1 {
+            font-family: 'PT Sans Narrow';
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        Make your own Verrit!
+    </h1>
+    <p>
+        <label for="quote">Quote:</label>
+        <textarea id="quote" rows="5" cols="50">Enter your quote here</textarea>
+    </p>
+    <p>
+        <label for="source">Source:</label>
+        <input type="text" id="source" value="Cite your source here" />
+    </p>
+    <p>
+        <label for="auth">Authentication code:</label>
+        <input type="text" id="auth" value="1234567" />
+    </p>
+    <p>
+        <input type="button" onclick="generate()" value="Generate!" />
+    </p>
+    <p>
+        <!-- <canvas id='verritIsAFuckingJoke' width="1200" height="600" style="visibility: collapsed;"></canvas> -->
+        <img id='result' width="1200" height="600" />
+    </p>
+    <!-- <img id='template' src='verrittemplate.jpg' style="visibility:hidden" /> -->
+</body>
+<script type="text/javascript">
+    var white = new RegExp(/^\s$/), canvasId = 'verritIsAFuckingJoke', resultId = 'result', img = new Image();    
+    img.src = '/verrittemplate.jpg';
+
+    function eid(elementId) {
+        return document.getElementById(elementId);
+    }
+    function wrapAt(str, maxWidth) {
+        var retval = [], done = false, res = '';
+        do {
+            found = false;
+            // Inserts new line at first whitespace of the line
+            for (i = maxWidth - 1; i >= 0; i--) {
+                if (white.test(str.charAt(i))) {
+                    res = res + str.slice(0, i);
+                    retval.push(res);
+                    res = '';
+                    str = str.slice(i + 1);
+                    found = true;
+                    break;
+                }
+            }
+            // Inserts new line at maxWidth position, the word is too long to wrap
+            if (!found) {
+                res += str.slice(0, maxWidth);
+                retval.push(res);
+                res = '';
+                str = str.slice(maxWidth);
+            }
+
+            if (str.length < maxWidth)
+                done = true;
+        } while (!done);
+
+        if(str.length){
+            var last = retval[retval.length - 1], join = '';
+            if(!last.endsWith(' ') && !str.startsWith(' '))
+                join = ' ';
+            retval[retval.length - 1] = [last, str].join(join);
+        }
+        // retval.push(str);
+        return retval;
+    }
+    function generate() {
+        var canvas = document.createElement('canvas');
+        canvas.width = 1200;
+        canvas.height = 600;
+        var ctx = canvas.getContext('2d');     
+        ctx.drawImage(img, 0, 0);
+        var quote = wrapAt(eid('quote').value, 52),
+            source = eid('source').value,
+            auth = eid('auth').value.slice(0, 9),
+            lineHeight = 60;
+
+        ctx.font = 'bold 40pt "PT Sans Narrow", sans-serif';
+        for (var i = 0; i < quote.length; i++)
+            ctx.fillText(quote[i], 158, 173 + (i * lineHeight), 900);
+
+        ctx.font = 'Bold 18pt "PT Sans Narrow", sans-serif';
+        ctx.fillText(auth, 495, 543, 300);
+
+        ctx.translate(80, 552);
+        ctx.rotate((Math.PI / 180) * -90);
+        ctx.font = 'bold 18pt "PT Sans Narrow", sans-serif';
+        ctx.fillText(source, 0, 0);
+
+        eid(resultId).src = canvas.toDataURL('image/png');
+    }
+</script>
+
+</html>
