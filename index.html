@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 
@@ -24,24 +25,24 @@
     <h1>
         Make your own Verrit!
     </h1>
+    <h2>This is for entertainment purposes. Do not share on social media. Serious you guys.</h2>
     <p>
         <label for="quote">Quote:</label>
-        <textarea id="quote" rows="5" cols="50">Enter your quote here</textarea>
+        <textarea id="quote" rows="5" cols="50" title="Make sure to format your code in a way that is not consistent with Verrit quotes">Enter your quote here</textarea>
     </p>
     <p>
         <label for="source">Source:</label>
-        <input type="text" id="source" value="Cite your source here" />
+        <input type="text" id="source" value="Cite your source here" title="Make sure to format quotes in obviously fake ways, and do not cite real sources other than the Onion (pls don't sue me kthx)" />
     </p>
     <p>
         <label for="auth">Authentication code:</label>
-        <input type="text" id="auth" value="1234567" />
+        <input type="text" id="auth" value="1234567" title="Whatever. Seven characters or not. Don't put anything funny in here. Whatever it is, they're verified, so you suck."/>
     </p>
     <p>
-        <input type="button" onclick="generate()" value="Generate!" />
+        <input type="button" onclick="generate()" value="Generate!" title="Don't click this." />
     </p>
     <p>
-        <!-- <canvas id='joke' width="1200" height="600" style="visibility: collapsed;"></canvas> -->
-        <img id='result' width="1200" height="600" />
+        <img id='result' width="1200" height="600" title="Don't copy this or post it to social media. I'm cereal." />
     </p>
     <!-- <img id='template' src='verrittemplate.jpg' style="visibility:hidden" /> -->
 </body>
@@ -52,6 +53,7 @@
     function eid(elementId) {
         return document.getElementById(elementId);
     }
+    // This is not totally stolen from StackOverflow here https://stackoverflow.com/a/14487422 
     function wrapAt(str, maxWidth) {
         var retval = [], done = false, res = '';
         do {
